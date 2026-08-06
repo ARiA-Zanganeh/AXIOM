@@ -34,7 +34,7 @@ A minimalist, Apple-inspired calculator web app — clean UI, smooth micro-inter
 
 1. Clone the repository
    ```bash
-   git clone https://github.com/your-username/axiom-calculator.git
+   git clone https://github.com/ARiA-Zanganeh/axiom-calculator.git
    ```
 2. Open `index.html` in your browser — no build step or dependencies required.
 
