@@ -1,0 +1,289 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --background: #f6f5f8;
+    --calculator: #ffffff;
+    --display: #fafafa;
+    --text: #111111;
+    --btn-number-bg: #ffffff;
+    --btn-dark-bg: #111111;
+    --btn-dark-bg-hover: #222222;
+    --history-color: #999999;
+    --shadow: rgba(0, 0, 0, 0.08);
+}
+
+/* Dark theme overrides, applied when body has the .dark-theme class */
+body.dark-theme {
+    --background: #1a1a1e;
+    --calculator: #26262b;
+    --display: #1f1f23;
+    --text: #f2f2f2;
+    --btn-number-bg: #34343a;
+    --btn-dark-bg: #0a0a0a;
+    --btn-dark-bg-hover: #000000;
+    --history-color: #777777;
+    --shadow: rgba(0, 0, 0, 0.4);
+}
+
+body {
+    min-height: 100vh;
+    background: var(--background);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Helvetica, Arial, sans-serif;
+    transition: background 0.3s ease;
+    padding: 16px;
+}
+
+.calculator {
+    width: 400px;
+    padding: 25px;
+    border-radius: 35px;
+    background: var(--calculator);
+    box-shadow: 0 25px 60px rgba(0,0,0,0.10), 0 4px 12px rgba(0,0,0,0.04);
+    border: 1px solid rgba(0,0,0,0.03);
+    animation: fadeInScale 0.4s ease;
+    transition: background 0.3s ease;
+}
+
+/* Splash-in animation on load */
+@keyframes fadeInScale {
+    from { opacity: 0; transform: scale(0.96); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* Brand / logo section */
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px;
+    opacity: 0.85;
+}
+
+.brand-name {
+    flex: 1;
+}
+
+.theme-toggle {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 10px;
+    transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.theme-toggle:hover {
+    background: rgba(0,0,0,0.06);
+}
+
+.theme-toggle:active {
+    transform: scale(0.9);
+}
+
+.logo {
+    width: 22px;
+    height: 22px;
+}
+
+.brand-name {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: var(--text);
+    text-transform: uppercase;
+}
+
+/* History strip - shows the previous operation faintly above the display */
+.history {
+    min-height: 20px;
+    text-align: right;
+    font-size: 0.9rem;
+    color: var(--history-color);
+    padding: 0 20px;
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.history::-webkit-scrollbar {
+    display: none;
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: clamp(8px, 2.5vw, 12px);
+}
+
+.display {
+    height: clamp(90px, 22vw, 120px);
+    background: var(--display);
+    border-radius: 20px;
+    margin-bottom: 20px;
+    padding: clamp(14px, 4vw, 20px);
+
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+
+    font-size: clamp(2.2rem, 8vw, 3rem);
+    font-weight: 500;
+    color: var(--text);
+
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+
+    text-align: right;
+    direction: ltr;
+    scrollbar-width: none;
+
+    transition: font-size 0.15s ease;
+}
+
+.display::-webkit-scrollbar {
+    display: none;
+}
+
+.buttons button {
+    position: relative;
+    height: clamp(56px, 15vw, 70px);
+    min-height: 48px; /* keeps every button comfortably tappable, even on tiny screens */
+    font-size: clamp(18px, 5vw, 24px);
+    font-family: inherit;
+    border: none;
+    border-radius: clamp(16px, 5vw, 22px);
+    cursor: pointer;
+    overflow: hidden;
+    transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.15s ease;
+}
+
+/* Subtle glossy highlight on top of every button, like light hitting a glass surface */
+.buttons button::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 45%;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.35), rgba(255,255,255,0));
+    pointer-events: none;
+    border-radius: 22px 22px 0 0;
+}
+
+/* Spring/bounce press effect */
+.buttons button:active {
+    transform: scale(0.90);
+}
+
+.number {
+    background: var(--btn-number-bg);
+    color: var(--text);
+    border: 1px solid rgba(0,0,0,.05);
+    box-shadow: 0 2px 10px rgba(0,0,0,.10);
+    transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.15s ease, background 0.3s ease, color 0.3s ease;
+}
+
+.number:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,.12);
+}
+
+.operator {
+    background: var(--btn-dark-bg);
+    color: #ffffff;
+    transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.2s ease;
+}
+
+.operator:hover {
+    background: var(--btn-dark-bg-hover);
+}
+
+.action {
+    background: var(--btn-dark-bg);
+    color: #ffffff;
+    transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.2s ease;
+}
+
+.action:hover {
+    background: var(--btn-dark-bg-hover);
+}
+
+.equal {
+    background: var(--btn-dark-bg);
+    color: #fff;
+    transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.2s ease;
+}
+
+.equal:hover {
+    background: var(--btn-dark-bg-hover);
+}
+
+@media (max-width: 500px) {
+
+    .calculator {
+        width: 92%;
+        padding: 20px;
+        border-radius: 28px;
+    }
+
+    .display {
+        height: 100px;
+        font-size: 2.5rem;
+        border-radius: 16px;
+    }
+
+    .buttons {
+        gap: 10px;
+    }
+
+    .buttons button {
+        height: 58px;
+        font-size: 19px;
+        border-radius: 18px;
+    }
+
+    .brand-name {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 340px) {
+
+    .calculator {
+        padding: 16px;
+    }
+
+    .display {
+        height: 85px;
+        font-size: 2.1rem;
+        padding: 14px;
+    }
+
+    .buttons {
+        gap: 8px;
+    }
+
+    .buttons button {
+        height: 50px;
+        font-size: 17px;
+        border-radius: 16px;
+    }
+}
+
+.zero {
+    grid-column: span 2;
+}
+
+.dot {
+    grid-column: span 2;
+}
